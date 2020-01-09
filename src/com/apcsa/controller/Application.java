@@ -51,6 +51,9 @@ public class Application {
 
                 if (isFirstLogin() && !activeUser.isRoot()) {
                     // first-time users need to change their passwords from the default provided
+                	System.out.print("\nEnter new password: ");
+                    String newPassword = in.next();
+                    PowerSchool.changePassword(username, newPassword);
                 }
 
                 // create and show the user interface
