@@ -21,3 +21,29 @@ public Teacher(User user, ResultSet rs) throws SQLException {{
     this.lastName = rs.getString("last_name");
     this.departmentName = rs.getString("department_id");
 }}
+
+
+    public int getTeacherId() {
+    	return teacherId;
+    }
+    
+    public int getDepartmentId() {
+    	return departmentId;
+    }
+    
+    public String getFirstName() {
+    	return firstName;
+    }
+    
+    public String getLastName() {
+    	return lastName;
+    }
+    
+    public String getDepartmentName() {
+    	return departmentName;
+    }
+
+    
+
+
+}
