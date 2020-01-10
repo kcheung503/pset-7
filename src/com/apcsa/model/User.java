@@ -15,7 +15,7 @@ public User(User user) {
          user.getUsername(),
          user.getPassword(),
          user.getLastLogin()
-    )
+    );
 }
 
     /**
