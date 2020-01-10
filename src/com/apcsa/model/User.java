@@ -3,13 +3,20 @@ package com.apcsa.model;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class User {
+/**
+ * Creates an instance of the User class.
+ * 
+ * @param user an existing User object
+ */
 
-    private int userId;
-    private String accountType;
-    private String username;
-    private String password;
-    private String lastLogin;
+public User(User user) {
+    this(user.getUserId(),
+         user.getAccountType(),
+         user.getUsername(),
+         user.getPassword(),
+         user.getLastLogin()
+    );
+}
 
     /**
      * Creates an instance of the User class.
