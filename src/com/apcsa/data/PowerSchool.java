@@ -249,4 +249,9 @@ public class PowerSchool {
             e.printStackTrace();
         }
     }
+
+	public static void changePassword(String username, String newPassword) {
+		// TODO Auto-generated method stub
+		
+	}
 }
