@@ -3,6 +3,8 @@ package com.apcsa.controller;
 import java.util.Scanner;
 import com.apcsa.data.PowerSchool;
 import com.apcsa.model.User;
+import java.util.ArrayList;
+import com.apcsa.model.Teacher;
 
 public class Application {
 
@@ -14,57 +16,54 @@ public class Application {
      * with the user via the command line interface.
      */
 
-    public Application() {
-        this.in = new Scanner(System.in);
+        public Application() {
+            this.in = new Scanner(System.in);
 
-        try {
-            PowerSchool.initialize(false);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Starts the PowerSchool application.
-     */
-
-    public void startup() {
-        System.out.println("PowerSchool -- now for students, teachers, and school administrators!");
-
-        // continuously prompt for login credentials and attempt to login
-
-        while (true) {
-            System.out.print("\nUsername: ");
-            String username = in.next();
-
-            System.out.print("Password: ");
-            String password = in.next();
-
-            // if login is successful, update generic user to administrator, teacher, or student
-
-            if (login(username, password)) {
-                activeUser = activeUser.isAdministrator()
-                    ? PowerSchool.getAdministrator(activeUser) : activeUser.isTeacher()
-                    ? PowerSchool.getTeacher(activeUser) : activeUser.isStudent()
-                    ? PowerSchool.getStudent(activeUser) : activeUser.isRoot()
-                    ? activeUser : null;
-
-                if (isFirstLogin() && !activeUser.isRoot()) {
-                    // first-time users need to change their passwords from the default provided
-                	System.out.print("\nEnter new password: ");
-                    String newPassword = in.next();
-                    PowerSchool.changePassword(username, newPassword);
-                }
-
-                // create and show the user interface
-                //
-                // remember, the interface will be difference depending on the type
-                // of user that is logged in (root, administrator, teacher, student)
-            } else {
-                System.out.println("\nInvalid username and/or password.");
+            try {
+                PowerSchool.initialize(false);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
-    }
+
+        /**
+         * Starts the PowerSchool application.
+         */
+
+        public void startup() {
+            System.out.println("PowerSchool -- now for students, teachers, and school administrators!");
+
+            while (true) {
+                System.out.print("\nUsername: ");
+                String username = in.next();
+
+                System.out.print("Password: ");
+                String password = in.next();
+
+                try {
+    	            if (login(username, password)) {
+    	                activeUser = activeUser.isAdministrator()
+    	                    ? PowerSchool.getAdministrator(activeUser) : activeUser.isTeacher()
+    	                    ? PowerSchool.getTeacher(activeUser) : activeUser.isStudent()
+    	                    ? PowerSchool.getStudent(activeUser) : activeUser.isRoot()
+    	                    ? activeUser : null;
+    	
+    	                if (isFirstLogin() && !activeUser.isRoot()) {
+    	                    System.out.print("\nInput a new password: ");
+    	                    String newPassword = in.next();
+    	                    
+//    	                    changePass(username, newPassword);
+    	                }
+    	                
+//    	                createAndShowUI();
+    	            } else {
+    	                System.out.println("\nInvalid username and/or password.");
+    	            }
+                } catch (Exception e) {
+//                	shutdown(e);
+                }
+            }
+        }
 
     /**
      * Logs in with the provided credentials.
