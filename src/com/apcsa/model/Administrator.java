@@ -1,6 +1,8 @@
 package com.apcsa.model;
 
 import com.apcsa.model.User;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class Administrator extends User {
 
