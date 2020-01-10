@@ -27,3 +27,5 @@ public Administrator(User user, ResultSet rs) throws SQLException {
     this.lastName = rs.getString("last_name");
     this.jobTitle = rs.getString("job_title");
 }
+
+super(user);
