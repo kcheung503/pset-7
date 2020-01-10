@@ -44,8 +44,4 @@ public class Teacher extends User {
     public String getDepartmentName() {
     	return departmentName;
     }
-
-    
-
-
 }
