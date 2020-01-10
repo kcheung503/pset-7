@@ -12,7 +12,7 @@ import java.sql.SQLException;
  * @throws SQLException
  */
 
-public Teacher(User user, ResultSet rs) throws SQLException {
+public Teacher(User user, ResultSet rs) throws SQLException {{
     super(user);
     
     this.teacherId = rs.getInt("teacher_id");
@@ -20,4 +20,4 @@ public Teacher(User user, ResultSet rs) throws SQLException {
     this.firstName = rs.getString("first_name");
     this.lastName = rs.getString("last_name");
     this.departmentName = rs.getString("department_id");
-}
+}}

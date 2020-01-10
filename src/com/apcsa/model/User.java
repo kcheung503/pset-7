@@ -36,7 +36,7 @@ public class User {
      * @param lastLogin the last time the user logged in
      */
 
-    public User(int userId, String accountType, String username, String password, String lastLogin) {
+    public User (int userId, String accountType, String username, String password, String lastLogin) {
         this.userId = userId;
         this.accountType = accountType.toLowerCase();
         this.username = username;
@@ -44,7 +44,7 @@ public class User {
         this.lastLogin = lastLogin;
     }
 
-    /**
+	/**
      * @return userId
      */
 
@@ -123,5 +123,14 @@ public class User {
 
     public boolean isStudent() {
         return accountType.equals("student");
+    }
+    
+    public User(User user) {
+    	this(user.getUserId(),
+    		 user.getAccountType(),
+    		 user.getUsername(),
+    		 user.getPassword(),
+    		 user.getLastLogin()
+    			);
     }
 }
