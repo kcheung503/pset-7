@@ -4,6 +4,13 @@ import com.apcsa.model.User;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+public class Administrator extends User {
+
+	private int administratorId;
+    private String firstName;
+    private String lastName;
+    private String jobTitle;
+    
 /**
  * Creates an instance of the Administrator class.
  * 
@@ -12,21 +19,14 @@ import java.sql.SQLException;
  * @throws SQLException
  */
     
-public Administrator(User user, ResultSet rs) throws SQLException {
-    super(user);
-    
-    this.administratorId = rs.getInt("administrator_id");
-    this.firstName = rs.getString("first_name");
-    this.lastName = rs.getString("last_name");
-    this.jobTitle = rs.getString("job_title");
-
-super(user);
-
-this.administratorId = rs.getInt("administrator_id");
-this.firstName = rs.getString("first_name");
-this.lastName = rs.getString("last_name");
-this.jobTitle = rs.getString("job_title");
-}}
+	public Administrator(User user, ResultSet rs) throws SQLException {
+		super(user);
+		
+		this.administratorId = rs.getInt("administrator_id");
+		this.firstName = rs.getString("first_name");
+		this.lastName = rs.getString("last_name");
+		this.jobTitle = rs.getString("job_title");
+	}
 
 	public int getAdministratorId() {
 		return administratorId;
