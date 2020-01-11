@@ -39,6 +39,7 @@ public class Administrator extends User {
 	public String getLastName() {
 		return lastName;
 	}
+	
 	public String getJobTitle() {
 		return jobTitle;
 	}
