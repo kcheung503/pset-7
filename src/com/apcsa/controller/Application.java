@@ -223,6 +223,65 @@ public class Application {
     		return selection;
         }
         
+        private int checkYesNo(String yesNo, String wantTo) {
+        	if(!yesNo.equals("y") && !yesNo.equals("n")) {
+        		while(!yesNo.equals("y") && !yesNo.equals("n")) {
+        			System.out.println("\nInvalid selection.\n");
+        			System.out.print("Are you sure " + wantTo +" (y/n) ");
+        			yesNo = in.nextLine();
+        			yesNo = yesNo.toLowerCase();
+        		}
+        		if((yesNo.equals("n"))) {
+        			return -1;
+        		} else if (yesNo.equals("y")) {
+        			return 1;
+        		}
+        	} else if (yesNo.equals("n")) {
+        		return -1;
+        	} else if (yesNo.equals("y")) {
+        		return 1;
+        	}
+    		return 0;
+        }
+        
+        public void rootResetPassword() {
+        	in.nextLine();
+        	
+        	System.out.print("\nUsername: ");
+        	String username = in.nextLine();
+        	String wantTo = "you want to reset the password for " + username + "?";
+        	System.out.print("Are you sure you want to reset the password for " + username + "? (y/n) ");
+        	String yesNo = in.nextLine(); 	
+        	
+        	yesNo = yesNo.toLowerCase();
+        	int checked = checkYesNo(yesNo, wantTo);
+        	
+        	if(checked == -1) {
+    			System.out.println("");
+        	} else if (checked == 1) {
+        		int worked = PowerSchool.updatePasswordAndTime(username);
+        		if(worked == 1) {
+        			System.out.println("\nSuccessfully reset password for " + username + ".\n");
+        		}
+        	}
+        }
+        
+        public void resetPassword() {
+        	in.nextLine();
+        	System.out.print("\nEnter current password: ");
+        	String currentPassword = in.nextLine();
+        	System.out.print("Enter new password: ");
+        	String newPassword = in.nextLine();
+        	
+        	String truePassword = PowerSchool.getPassword(activeUser, currentPassword);
+        	
+        	if(!Utils.getHash(currentPassword).equals(truePassword)) {
+        		System.out.println("\nInvalid current password.\n");
+        	} else {
+        		changePass(activeUser.getUsername(), newPassword);
+        		System.out.println("");
+        	}
+        }
 
     /**
      * Logs in with the provided credentials.
