@@ -1030,6 +1030,25 @@ public void studentEnrollment() {
         	    	markingPeriod = in.nextInt();
         		}
         	}
+        	
+        	ArrayList<String> titles = PowerSchool.getAssignmentTitle(courseId, markingPeriod);
+        	if(titles.isEmpty()) {
+        		System.out.println("\nThere are no assignments in this class and marking period.\n");
+        	} else {
+        		
+        		System.out.println("");
+        		String currentGrade = "";
+        		for(int i = 0; i <= titles.size()-1; i++) {
+        			int assignmentId = PowerSchool.getAssignmentIdFromTitlePlus(titles.get(i), courseId, markingPeriod);
+        			if(PowerSchool.previousGrade(courseId, assignmentId, studentId) == -1) {
+            			currentGrade = "--";
+            		} else {
+            			currentGrade = String.valueOf(PowerSchool.previousGrade(courseId, assignmentId, studentId));
+            		}
+        			System.out.println((i + 1) + ". " + titles.get(i) + " / " + currentGrade + " (out of " + PowerSchool.getPointValue(titles.get(i)) + " pts)");
+            	}
+            	System.out.println("");
+        	}
         }
         
     /**
