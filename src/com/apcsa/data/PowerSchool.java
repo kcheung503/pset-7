@@ -680,5 +680,214 @@ public class PowerSchool {
         }
      	return teachers;
     }
+    
+    public static ArrayList<String> getStudents() {
+    	ArrayList<String> students = new ArrayList<String>();
+    	try (Connection conn = getConnection();
+     			PreparedStatement stmt = conn.prepareStatement(QueryUtils.GET_STUDENTS)) {
+     			
+     			try (ResultSet rs = stmt.executeQuery()) {
+     				while (rs.next()) {
+                  	   String result = rs.getString("first_name");
+                  	   String result2 = rs.getString("last_name");
+                  	   students.add(result);
+                  	   students.add(result2);
+     				}
+     			}	
+     		return students;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+     	return students;
+    }
+    
+    public static ArrayList<String> getGradYears() {
+    	ArrayList<String> gradYears = new ArrayList<String>();
+    	try (Connection conn = getConnection();
+     			PreparedStatement stmt = conn.prepareStatement(QueryUtils.GET_STUDENTS)) {
+     			
+     			try (ResultSet rs = stmt.executeQuery()) {
+     				while (rs.next()) {
+                  	   gradYears.add(rs.getString("graduation"));
+     				}
+     			}	
+     		return gradYears;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+     	return gradYears;
+    }
+    
+    public static ArrayList<String> getStudentsByGrade(int gradeLevel) {
+    	ArrayList<String> students = new ArrayList<String>();
+    	try (Connection conn = getConnection();
+     			PreparedStatement stmt = conn.prepareStatement(QueryUtils.GET_STUDENTS_BY_GRADE)) {
+     			
+    			stmt.setInt(1,  gradeLevel);
+     			try (ResultSet rs = stmt.executeQuery()) {
+     				while (rs.next()) {
+                  	   students.add(rs.getString("first_name"));
+                  	   students.add(rs.getString("last_name"));
+                  	   students.add(rs.getString("gpa"));
+     				}
+     			}	
+     		return students;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+     	return students;
+    }
+    
+    public static ArrayList<String> getAllCourses() {
+    	ArrayList<String> courses = new ArrayList<String>();
+    	try (Connection conn = getConnection();
+     			PreparedStatement stmt = conn.prepareStatement(QueryUtils.GET_ALL_COURSES)) {
+     			
+     			try (ResultSet rs = stmt.executeQuery()) {
+     				while (rs.next()) {
+     					courses.add(rs.getString("course_no"));
+     				}
+     			}	
+     		return courses;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+     	return courses;
+    }
+    
+    public static String getCourseIdFromCourseNo2(String courseNo) {
+    	try (Connection conn = getConnection();
+     			PreparedStatement stmt = conn.prepareStatement(QueryUtils.GET_COURSE_ID_FROM_COURSE_NO)) {
+     			stmt.setString(1,  courseNo);
+     			try (ResultSet rs = stmt.executeQuery()) {
+     				while (rs.next()) {
+     					return rs.getString("course_id");
+     				}
+     			}	
+     		return "no";
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+     	return "no";
+    }
+    
+    public static ArrayList<String> getStudentId(String courseId) {
+    	ArrayList<String> studentIds = new ArrayList<String>();
+    	try (Connection conn = getConnection();
+     			PreparedStatement stmt = conn.prepareStatement(QueryUtils.GET_STUDENT_ID_FROM_COURSE_ID)) {
+     			
+    			stmt.setString(1, courseId);
+     			try (ResultSet rs = stmt.executeQuery()) {
+     				while (rs.next()) {
+     					studentIds.add(rs.getString("student_id"));
+     				}
+     			}	
+     		return studentIds;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+     	return studentIds;
+    }
+    
+    
+    
+    public static ArrayList<String> getStudentsByStudentId(String studentIds) {
+    	ArrayList<String> students = new ArrayList<String>();
+    	try (Connection conn = getConnection();
+     			PreparedStatement stmt = conn.prepareStatement(QueryUtils.GET_STUDENTS_BY_STUDENT_ID)) {
+     			
+    			stmt.setString(1,  studentIds);
+     			try (ResultSet rs = stmt.executeQuery()) {
+     				while (rs.next()) {
+                  	   students.add(rs.getString("first_name"));
+                  	   students.add(rs.getString("last_name"));
+                  	   students.add(rs.getString("gpa"));
+     				}
+     			}	
+     		return students;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+     	return students;
+    }
+    
+    public static int updatePasswordAndTime(String username) {
+        try (Connection conn = getConnection();
+        	 PreparedStatement stmt = conn.prepareStatement(QueryUtils.UPDATE_PASSWORD_AND_TIME)) {
+
+            conn.setAutoCommit(false);
+            stmt.setString(1, Utils.getHash(username));
+            stmt.setString(2, "0000-00-00 00:00:00.000");
+            stmt.setString(3, username);
+
+            if (stmt.executeUpdate() == 1) {
+                conn.commit();
+                return 1;
+            } else {
+            	System.out.println("\nUser " + username + " does not exist.\n");
+                conn.rollback();
+                return -1;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+            return -1;
+        }
+    }
+    
+    public static String getStudentGrade(String courseId, String studentId) {
+    	try (Connection conn = getConnection();
+     			PreparedStatement stmt = conn.prepareStatement(QueryUtils.GET_STUDENT_GRADE)) {
+     			
+    			stmt.setString(1,  courseId);
+    			stmt.setString(2,  studentId);
+     			try (ResultSet rs = stmt.executeQuery()) {
+     				while (rs.next()) {
+     					return rs.getString("grade");
+     				}
+     			}	
+     		return "no";
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+     	return "no";
+    }
+    
+    public static ArrayList<String> getStudentsFirstNames(String studentIds) {
+    	ArrayList<String> students = new ArrayList<String>();
+    	try (Connection conn = getConnection();
+     			PreparedStatement stmt = conn.prepareStatement(QueryUtils.GET_STUDENTS_FIRST_NAMES)) {
+     			
+    			stmt.setString(1,  studentIds);
+     			try (ResultSet rs = stmt.executeQuery()) {
+     				while (rs.next()) {
+                  	   students.add(rs.getString("first_name"));
+     				}
+     			}	
+     		return students;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+     	return students;
+    }
+    
+    public static ArrayList<String> getStudentsLastNames(String studentIds) {
+    	ArrayList<String> students = new ArrayList<String>();
+    	try (Connection conn = getConnection();
+     			PreparedStatement stmt = conn.prepareStatement(QueryUtils.GET_STUDENTS_LAST_NAMES)) {
+     			
+    			stmt.setString(1,  studentIds);
+     			try (ResultSet rs = stmt.executeQuery()) {
+     				while (rs.next()) {
+                  	   students.add(rs.getString("last_name"));
+     				}
+     			}	
+     		return students;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+     	return students;
+    }
+    
 }
 
