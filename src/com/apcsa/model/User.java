@@ -2,14 +2,13 @@ package com.apcsa.model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import com.apcsa.controller.Utils;
 
 public class User {
 
     private int userId;
     private String accountType;
     private String username;
-    protected String password;
+    private String password;
     private String lastLogin;
 
     /**
@@ -37,7 +36,7 @@ public class User {
      * @param lastLogin the last time the user logged in
      */
 
-    public User(int userId, String accountType, String username, String password, String lastLogin) {
+    public User (int userId, String accountType, String username, String password, String lastLogin) {
         this.userId = userId;
         this.accountType = accountType.toLowerCase();
         this.username = username;
@@ -45,15 +44,7 @@ public class User {
         this.lastLogin = lastLogin;
     }
 
-    public User(User user) {
-        this.userId = user.getUserId();
-        this.accountType = user.getAccountType().toLowerCase();
-        this.username = user.getUsername();
-        this.password = user.getPassword();
-        this.lastLogin = user.getLastLogin();
-    }
-
-    /**
+	/**
      * @return userId
      */
 
@@ -83,10 +74,6 @@ public class User {
 
     public String getPassword() {
         return password;
-    }
-
-    public void setPassword(String password) {
-    	this.password = password;
     }
 
     /**
@@ -136,5 +123,14 @@ public class User {
 
     public boolean isStudent() {
         return accountType.equals("student");
+    }
+    
+    public User(User user) {
+    	this(user.getUserId(),
+    		 user.getAccountType(),
+    		 user.getUsername(),
+    		 user.getPassword(),
+    		 user.getLastLogin()
+    			);
     }
 }

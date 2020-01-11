@@ -2,7 +2,6 @@ package com.apcsa.model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import com.apcsa.model.User;
 
 public class Teacher extends User {
@@ -23,8 +22,7 @@ public class Teacher extends User {
         this.lastName = rs.getString("last_name");
         this.departmentId = rs.getInt("department_id");
     }
-
-
+    
     public int getTeacherId() {
     	return teacherId;
     }
