@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import com.apcsa.controller.Utils;
 import com.apcsa.model.Administrator;
@@ -83,14 +84,12 @@ public class PowerSchool {
                     if (affected != 1) {
                         System.err.println("Unable to update last login (affected rows: " + affected + ").");
                     }
-
                     return new User(rs);
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return null;
     }
 
@@ -198,7 +197,6 @@ public class PowerSchool {
 
             if (stmt.executeUpdate() == 1) {
                 conn.commit();
-
                 return 1;
             } else {
                 conn.rollback();
@@ -249,9 +247,251 @@ public class PowerSchool {
             e.printStackTrace();
         }
     }
+    
+    public static int updatePassword(String username, String newPassword) {
+        try (Connection conn = getConnection();
+        	 PreparedStatement stmt = conn.prepareStatement(QueryUtils.UPDATE_STUDENT_PASSWORD)) {
 
-	public static void changePassword(String username, String newPassword) {
-		// TODO Auto-generated method stub
-		
-	}
+            conn.setAutoCommit(false);
+            stmt.setString(1, Utils.getHash(newPassword));
+            stmt.setString(2, username);
+
+            if (stmt.executeUpdate() == 1) {
+                conn.commit();
+                return 1;
+            } else {
+                conn.rollback();
+                return -1;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+            return -1;
+        }
+    }
+    
+    public static String getFirstName(User activeUser) {
+    	try (Connection conn = getConnection();
+                PreparedStatement stmt = conn.prepareStatement(QueryUtils.GET_STUDENT_FIRSTNAME)) {
+
+               stmt.setInt(1, activeUser.getUserId());
+
+               try (ResultSet rs = stmt.executeQuery()) {
+                   if (rs.next()) {
+                       return rs.getString("first_name");
+                   }
+               }
+           } catch (SQLException e) {
+               e.printStackTrace();
+           }
+
+           return "root";
+    }
+    
+    public static ArrayList<Integer> getCourseId(int studentId) {
+    	ArrayList<Integer> resultList = new ArrayList<Integer>();
+    	try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(QueryUtils.GET_COURSE_ID)) {
+    		stmt.setInt(1, studentId);
+
+    		try (ResultSet rs = stmt.executeQuery()) {
+        	   while (rs.next()) {
+        		   resultList.add(rs.getInt("course_id"));
+        	   }
+        	   return resultList;
+        	   
+    		}
+    	} catch (SQLException e) {
+    		e.printStackTrace();
+        }
+    	return resultList;
+    }
+    
+    public static ArrayList<String> getCourseName(User activeUser, ArrayList<Integer> courseIds) {
+    	ArrayList<String> courses = new ArrayList<String>();
+     	try (Connection conn = getConnection();
+     			PreparedStatement stmt = conn.prepareStatement(QueryUtils.GET_COURSE_NAME)) {
+     			for(int i = 0; i <= courseIds.size()-1; i++) {
+     				stmt.setInt(1, courseIds.get(i));
+     				
+     				try (ResultSet rs = stmt.executeQuery()) {
+     					while (rs.next()) {
+                  		   String result = rs.getString("title");
+                  		   courses.add(result);
+     					}
+     				}
+     			}
+     			return courses;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+     	return courses;
+     }
+    
+    public static ArrayList<String> getCourseGrade(int studentId, ArrayList<Integer> courseIds) {
+    	ArrayList<String> courseGrades = new ArrayList<String>();
+     	try (Connection conn = getConnection();
+     			PreparedStatement stmt = conn.prepareStatement(QueryUtils.GET_COURSE_GRADE)) {
+     			
+     			for(int i = 0; i < courseIds.size(); i++) {
+     				stmt.setInt(1, courseIds.get(i));
+     				stmt.setInt(2, studentId);
+     				
+     				try (ResultSet rs = stmt.executeQuery()) {
+     					while (rs.next()) {
+                  		   String result = rs.getString("grade");
+
+                  		   if(result == null) {
+                  			 courseGrades.add("--");
+                  		   }else {
+                  			 courseGrades.add(result);
+                  		   }
+     					}
+     				}
+     			}
+     			return courseGrades;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+     	return courseGrades;
+     }
+    
+    public static ArrayList<String> getCourseNumber(User activeUser, ArrayList<Integer> courseIds) {
+    	ArrayList<String> courses = new ArrayList<String>();
+     	try (Connection conn = getConnection();
+     			PreparedStatement stmt = conn.prepareStatement(QueryUtils.GET_COURSE_NUMBER)) {
+     			for(int i = 0; i <= courseIds.size()-1; i++) {
+     				stmt.setInt(1, courseIds.get(i));
+     				
+     				try (ResultSet rs = stmt.executeQuery()) {
+     					while (rs.next()) {
+                  		   String result = rs.getString("course_no");
+                  		   courses.add(result);
+     					}
+     				}
+     			}
+     			return courses;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+     	return courses;
+     }
+    
+    public static ArrayList<String> getAssignmentTitle(int courseId, int markingPeriod) {
+    	ArrayList<String> title = new ArrayList<String>();
+     	try (Connection conn = getConnection();
+     			PreparedStatement stmt = conn.prepareStatement(QueryUtils.GET_ASSIGNMENT_TITLE)) {
+     			
+     				stmt.setInt(1, courseId);
+     				stmt.setInt(2, markingPeriod);
+     				
+     				try (ResultSet rs = stmt.executeQuery()) {
+     					while (rs.next()) {
+                  		 title.add(rs.getString("title"));
+     					}
+     				}
+     			return title;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+     	return title;
+     }
+    
+    public static String getPassword(User activeUser, String currentPassword) {
+    	try (Connection conn = getConnection();
+                PreparedStatement stmt = conn.prepareStatement(QueryUtils.GET_PASSWORD)) {
+
+               stmt.setInt(1, activeUser.getUserId());
+
+               try (ResultSet rs = stmt.executeQuery()) {
+                   if (rs.next()) {
+                	   return rs.getString("auth");
+                   }
+                   
+               }
+           } catch (SQLException e) {
+               e.printStackTrace();
+           }
+
+    	return "other";
+    }
+    
+    public static ArrayList<String> getCourses(int departmentId) {
+    	ArrayList<String> courses = new ArrayList<String>();
+     	try (Connection conn = getConnection();
+     			PreparedStatement stmt = conn.prepareStatement(QueryUtils.GET_COURSES)) {
+     			stmt.setInt(1, departmentId);
+     			
+     			try (ResultSet rs = stmt.executeQuery()) {
+     				while (rs.next()) {
+                  	   String result = rs.getString("course_no");
+                  	 courses.add(result);
+     				}
+     			}	
+     		return courses;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+     	return courses;
+     }
+    
+    public static int getCourseIdFromCourseNo(String courseNo){
+    	try (Connection conn = getConnection();
+                PreparedStatement stmt = conn.prepareStatement(QueryUtils.GET_COURSE_ID_FROM_DEPARTMENT_ID)) {
+
+               stmt.setString(1, courseNo);
+
+               try (ResultSet rs = stmt.executeQuery()) {
+                   if (rs.next()) {
+                       return rs.getInt("course_id");
+                   }
+               }
+           } catch (SQLException e) {
+               e.printStackTrace();
+           }
+
+           return 1;
+    }
+    
+    public static int addAssignment(int courseId, int assignmentId, int markingPeriod, int isMidterm, int isFinal, String title, int pointValue) {
+    	try (Connection conn = getConnection();
+           	 PreparedStatement stmt = conn.prepareStatement(QueryUtils.ADD_ASSIGNMENT)) {
+               
+    		   conn.setAutoCommit(false);
+               stmt.setInt(1, courseId);
+               stmt.setInt(2, assignmentId);
+               stmt.setInt(3, markingPeriod);
+               stmt.setInt(4, isMidterm);
+               stmt.setInt(5, isFinal);
+               stmt.setString(6, title);
+               stmt.setInt(7, pointValue);
+
+               if (stmt.executeUpdate() == 1) {
+                   conn.commit();
+                   return 1;
+               } else {
+                   conn.rollback();
+                   return -1;
+               }
+           } catch (SQLException e) {
+               return -1;
+           }
+    }
+    
+    public static int assignmentRows() {
+    	try (Connection conn = getConnection();
+    			PreparedStatement stmt = conn.prepareStatement(QueryUtils.PREVIOUS_ASSIGNMENT_ID)) {
+                  
+    		try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("count(*)");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return 1;
+    }
+    
 }
