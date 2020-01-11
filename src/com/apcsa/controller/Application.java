@@ -211,6 +211,7 @@ public class Application {
     		return selection;
         }
         
+        
         public int studentSelection() {
         	
         	System.out.println("[1] View course grades.");
@@ -985,6 +986,18 @@ public void studentEnrollment() {
         	}
         }
         
+        public void courseGrades() {
+        	int studentId = PowerSchool.getStudentIdByUserId(activeUser);
+        	ArrayList<Integer> courseIds = PowerSchool.getCourseId(studentId);
+        	ArrayList<String> courses = PowerSchool.getCourseName(activeUser, courseIds);
+        	ArrayList<String> courseGrades = PowerSchool.getCourseGrade(PowerSchool.getStudentIdByUserId(activeUser), courseIds);
+        	System.out.println("");
+        	
+        	for(int i = 0; i <= courseGrades.size()-1; i++) {
+        		System.out.println((i + 1) + ". " + courses.get(i) + " / " + courseGrades.get(i));
+        	}
+        	System.out.println("");
+        }
         
     /**
      * Logs in with the provided credentials.
