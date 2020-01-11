@@ -1097,6 +1097,30 @@ public void studentEnrollment() {
         System.out.println("\nGoodbye!");
         System.exit(0);
     }
+    
+    /*
+     * Releases all resources and kills the application.
+     */
+
+    private void shutdown() {
+    	in.nextLine();
+    	String wantTo = "";
+        System.out.print("\nAre you sure? (y/n) ");
+        String yesNo = in.nextLine();
+        yesNo = yesNo.toLowerCase();
+    	int checked = checkYesNo(yesNo, wantTo);
+    	
+    	if(checked == -1) {
+			System.out.println("");
+    	} else if (checked == 1) {
+    		if (in != null) {
+                in.close();
+            }
+            
+            System.out.println("\nGoodbye!");
+            System.exit(0);
+    	}
+    }
 
     
     /////// MAIN METHOD ///////////////////////////////////////////////////////////////////
