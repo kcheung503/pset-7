@@ -1080,6 +1080,25 @@ public void studentEnrollment() {
         return activeUser.getLastLogin().equals("0000-00-00 00:00:00.000");
     }
 
+    /*
+     * Shuts down the application after encountering an error.
+     * 
+     * @param e the error that initiated the shutdown sequence
+     */
+
+    private void shutdown(Exception e) {
+        if (in != null) {
+            in.close();
+        }
+        
+        System.out.println("Encountered unrecoverable error. Shutting down...\n");
+        System.out.println(e.getMessage());
+                
+        System.out.println("\nGoodbye!");
+        System.exit(0);
+    }
+
+    
     /////// MAIN METHOD ///////////////////////////////////////////////////////////////////
 
     /*
