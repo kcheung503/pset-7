@@ -52,15 +52,15 @@ public class Application {
     	                    System.out.print("\nInput a new password: ");
     	                    String newPassword = in.next();
     	                    
-//    	                    changePass(username, newPassword);
+    	                    changePass(username, newPassword);
     	                }
     	                
-//    	                createAndShowUI();
+    	                createAndShowUI();
     	            } else {
     	                System.out.println("\nInvalid username and/or password.");
     	            }
                 } catch (Exception e) {
-//                	shutdown(e);
+                	shutdown(e);
                 }
             }
         }
