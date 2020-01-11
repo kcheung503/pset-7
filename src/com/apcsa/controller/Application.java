@@ -392,6 +392,187 @@ public class Application {
         	}	
         }
         
+public void studentEnrollment() {
+        	
+        	ArrayList<String> students = PowerSchool.getStudents();
+        	ArrayList<String> gradYears = PowerSchool.getGradYears();
+        	System.out.println("");
+        	
+        	for (int i = 0, x = 0; i < students.size(); i = i + 2) {
+        		
+        		System.out.println((x+1) + ". " + students.get(i+1) + ", " + students.get(i) + " / " + gradYears.get(x));
+        		x += 1;
+        	}
+        	
+        	System.out.println("");
+        }
+        
+        public void studentEnrollmentbyGrade() {
+        	
+        	System.out.println("\nChoose a grade level.\n");
+        	System.out.println("[1] Freshman.");
+        	System.out.println("[2] Sophomore.");
+        	System.out.println("[3] Junior.");
+        	System.out.println("[4] Senior.");
+        	System.out.print("\n::: ");
+        	int gradeLevel = in.nextInt();
+        	
+        	if (gradeLevel < 1 || gradeLevel > 4) {
+        		
+        		while (gradeLevel < 1 || gradeLevel > 4) {
+        			System.out.println("\nInvalid selection.");
+        			System.out.println("\nChoose a grade level.\n");
+        	    	System.out.println("[1] Freshman.");
+        	    	System.out.println("[2] Sophomore.");
+        	    	System.out.println("[3] Junior.");
+        	    	System.out.println("[4] Senior.");
+        	    	System.out.print("\n::: ");
+        	    	gradeLevel = in.nextInt();
+        		}
+        	}
+        	
+        	switch(gradeLevel) {
+        	case 1: gradeLevel = 9; break;
+        	case 2: gradeLevel = 10; break;
+        	case 3: gradeLevel = 11; break;
+        	case 4: gradeLevel = 12; break;
+        	default: ;
+    	}
+        	
+        	ArrayList<String> students = PowerSchool.getStudentsByGrade(gradeLevel);
+        	ArrayList<String> studentClassRank = PowerSchool.getGradeOrder(gradeLevel);
+        	if(students.isEmpty()) {
+        		
+        		System.out.println("\nThere are no students in this grade.\n");
+        		
+        	} else {
+        		
+        		System.out.println("");
+        		
+            	for(int i = 0, x = 0, y = 1; i < studentClassRank.size(); i = i + 3) {
+            		String gpa = studentClassRank.get(i+2);
+            		
+            		if (gpa.equals("-1.0")) {
+            			y = 0;
+            		}
+            		
+            		System.out.println((x+1) + ". " + studentClassRank.get(i+1) + ", " + studentClassRank.get(i) + " / #" + y);
+            		x += 1;
+            		y += 1;
+            	}
+            	
+            	System.out.println("");
+        	}
+        }
+        
+        public void studentEnrollmentbyCourse() {
+        	
+        	in.nextLine();
+        	System.out.print("\nCourse No.: ");
+        	String courseNo = in.nextLine();
+        	courseNo = courseNo.toUpperCase();
+        	ArrayList<String> courses = PowerSchool.getAllCourses();
+        	
+        	while (!courses.contains(courseNo)) {
+        		
+        		System.out.println("\nCourse not found.\n");
+        		System.out.print("Course No.: ");
+            	courseNo = in.nextLine();
+            	
+        	}
+        	String courseId = PowerSchool.getCourseIdFromCourseNo2(courseNo);
+        	ArrayList<String> studentIds = PowerSchool.getStudentId(courseId);
+        	ArrayList<String> students = new ArrayList<String>();
+        	
+        	for (int i = 0; i < studentIds.size(); i++) {
+        		
+        		students.addAll(PowerSchool.getStudentsByStudentId(studentIds.get(i)));
+        		
+        	}
+        	
+        	System.out.println(courseId);
+
+        	System.out.println(students);
+        	System.out.println("");
+        	
+        	for (int i = 0, x = 0; i < students.size(); i = i + 3) {
+        		String gpa = students.get(i+2);
+        		
+        		if (gpa.equals("-1.0")) {
+        			gpa = "--";
+        		}
+        		
+        		System.out.println((x+1) + ". " + students.get(i+1) + ", " + students.get(i) + " / " + gpa);
+        		x += 1;
+        	}
+        	
+        	System.out.println("");
+        }
+        
+        public void enrollment() {
+        	
+        	System.out.println("\nChoose a course.\n");
+        	int departmentId = ((Teacher) activeUser).getDepartmentId();
+        	ArrayList<String> courses = PowerSchool.getCourses(departmentId);
+        	
+        	for (int i = 0; i <= courses.size()-1; i++) {
+        		System.out.println("[" + (i + 1) + "] " + courses.get(i));
+        	}
+        	
+        	System.out.print("\n::: ");
+        	int courseSelection = in.nextInt();
+        	
+        	if (courseSelection < 1 || courseSelection > courses.size()) {
+        		
+        		while (courseSelection < 1 || courseSelection > courses.size()) {
+        			System.out.println("\nInvalid selection.");
+        			System.out.println("\nChoose a course.\n");
+        			
+        			for (int i = 0; i <= courses.size()-1; i++) {
+        	    		System.out.println("[" + (i + 1) + "] " + courses.get(i));
+        	    	}
+        			
+        	    	System.out.print("\n::: ");
+        	    	courseSelection = in.nextInt();
+        		}
+        	}
+        	
+        	String courseNo = courses.get(courseSelection-1);
+        	String courseId = PowerSchool.getCourseIdFromCourseNo2(courseNo);
+        	ArrayList<String> studentIds = PowerSchool.getStudentId(courseId);
+        	ArrayList<String> students = new ArrayList<String>();
+        	
+        	for (int i = 0; i < studentIds.size(); i++) {
+        		students.addAll(PowerSchool.getStudentsByStudentId(studentIds.get(i)));
+        	}
+        	
+        	ArrayList<String> studentGrades = new ArrayList<String>();
+        	
+        	for (int i = 0; i < studentIds.size(); i++) {
+        		studentGrades.add(PowerSchool.getStudentGrade(courseId, studentIds.get(i)));
+        	}
+        	
+        	if (studentIds.isEmpty()) {
+        		System.out.println("\nThere are no students in this course.\n");
+        	
+        	} else {
+        		
+        		System.out.println("");
+        		
+        		for (int i = 0, x = 0; i < students.size(); i = i + 3) {
+            		String studentGrade = studentGrades.get(x);
+            		if(studentGrade == null) {
+            			studentGrade = "--";
+            		}
+            		
+            		System.out.println((x+1) + ". " + students.get(i+1) + ", " + students.get(i) + " / " + studentGrade);
+            		x += 1;
+            		
+            	}
+        		
+            	System.out.println("");
+        	}
+        }
         
         
     /**
