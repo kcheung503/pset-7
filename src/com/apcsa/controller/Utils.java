@@ -16,7 +16,7 @@ import com.apcsa.model.Student;
 public class Utils {
 
     /**
-     * Returns an MD5 hash of the user's plain text password.
+     * Returns an MD5 hash of the user's plaintext password.
      *
      * @param plaintext the password
      * @return an MD5 hash of the password
@@ -137,7 +137,7 @@ public class Utils {
         double examAvg = -1;
         double examWeight = -1;
         
-        // compute sume of marking period and/or exam grades
+        // compute some of marking period and/or exam grades
         
         for (int i = 0; i < grades.size(); i++) {
             if (grades.get(i) != null) {
@@ -148,7 +148,7 @@ public class Utils {
                     	mps++;
                     	mpSum = mpSum + grades.get(i);
                     }
-                } else {                                // midterm or final exam grade
+                } else {                                // mid term or final exam grade
                     if(grades.get(i)==-1) {
                     	
                     } else {
