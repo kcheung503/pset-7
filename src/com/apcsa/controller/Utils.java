@@ -16,7 +16,7 @@ import com.apcsa.model.Student;
 public class Utils {
 
     /**
-     * Returns an MD5 hash of the user's plaintext password.
+     * Returns an MD5 hash of the user's plain text password.
      *
      * @param plaintext the password
      * @return an MD5 hash of the password
