@@ -1007,6 +1007,19 @@ public void studentEnrollment() {
         	for(int i = 0; i <= courses.size()-1; i++) {
         		System.out.println("[" + (i + 1) + "] " + courses.get(i));
         	}
+        	System.out.print("\n::: ");
+        	int courseSelection = in.nextInt();
+        	if(courseSelection < 1 || courseSelection > courses.size()) {
+        		while(courseSelection < 1 || courseSelection > courses.size()) {
+        			System.out.println("\nInvalid selection.\n");
+        			System.out.println("Choose a course.\n");
+        			for(int i = 0; i <= courses.size()-1; i++) {
+        	    		System.out.println("[" + (i + 1) + "] " + courses.get(i));
+        	    	}
+        	    	System.out.print("\n::: ");
+        	    	courseSelection = in.nextInt();
+        		}
+        	}
         	
         }
         
