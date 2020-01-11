@@ -66,33 +66,44 @@ public class Application {
         }
         
         public void createAndShowUI() {
+        	
         	System.out.println("\nHello, again, " + activeUser.getFirstName() + "!\n");
         	
         	if(activeUser.isRoot()) {
         		showRootUI();
+        		
         	} else if (activeUser.isAdministrator()) {
         		showAdministratorUI();
+        		
         	} else if (activeUser.isTeacher()) {
         		showTeacherUI();
+        		
         	} else if (activeUser.isStudent()) {
+        		
         		showStudentUI();
+        		
         	}
         }
         
         private void showRootUI() {
+        	
         	while (activeUser != null) {
+        		
         		switch (getRootMenuSelection()) {
                 case 1: rootResetPassword(); break;
                 case 2: factoryReset(); break;
                 case 3: logout(); break;
                 case 4: shutdown(); break;
                 default: System.out.println("\nInvalid selection.\n"); break;
+                
             	}
         	}
         }
         
         private void showAdministratorUI() {
+        	
         	while (activeUser != null) {
+        		
      			switch (administratorSelection()) {
      			case 1: faculty(); break;
      			case 2: facultyByDepartment(); break;
@@ -102,6 +113,7 @@ public class Application {
      			case 6: resetPassword(); break;
      			case 7: logout(); break;
      			default: System.out.println("\nInvalid selection. \n"); break;
+     			
      			}
              }
         }
@@ -109,7 +121,9 @@ public class Application {
         private void showTeacherUI() {
         	
         	if((activeUser.getFirstName()).equals("Ryan")) {
+        		
         		while (activeUser != null) {
+        			
          			switch (wilsonSelection()) {
          			case 1: enrollment(); break;
          			case 2: addAssignment(); break;
@@ -121,8 +135,11 @@ public class Application {
          			default: System.out.println("\nInvalid selection. \n"); break;
          			}
                  }
+        		
         	} else {
+        		
         		while (activeUser != null) {
+        			
          			switch (teacherSelection()) {
          			case 1: enrollment(); break;
          			case 2: addAssignment(); break;
@@ -131,11 +148,38 @@ public class Application {
          			case 5: resetPassword(); break;
          			case 6: logout(); break;
          			default: System.out.println("\nInvalid selection. \n"); break;
+         			
          			}
                  }
         	}
         	
+        }
+        
+        private void showStudentUI() {
         	
+        	while (activeUser != null) {
+        		
+     			switch (studentSelection()) {
+     			case 1: courseGrades(); break;
+     			case 2: assignment(); break;
+     			case 3: resetPassword(); break;
+     			case 4: logout(); break;
+     			default: System.out.println("\nInvalid selection. \n"); break;
+     			
+     			}
+             }
+        }
+        
+        public int getRootMenuSelection() {
+        	
+        	System.out.println("[1] Reset user password.");
+        	System.out.println("[2] Factory reset database.");
+        	System.out.println("[3] Logout.");
+        	System.out.println("[4] Shutdown.");
+        	System.out.print("\n::: ");
+        	int selection = in.nextInt();
+        	return selection;
+            
         }
 
     /**
