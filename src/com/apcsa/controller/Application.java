@@ -90,6 +90,53 @@ public class Application {
             	}
         	}
         }
+        
+        private void showAdministratorUI() {
+        	while (activeUser != null) {
+     			switch (administratorSelection()) {
+     			case 1: faculty(); break;
+     			case 2: facultyByDepartment(); break;
+     			case 3: studentEnrollment(); break;
+     			case 4: studentEnrollmentbyGrade(); break;
+     			case 5: studentEnrollmentbyCourse(); break;
+     			case 6: resetPassword(); break;
+     			case 7: logout(); break;
+     			default: System.out.println("\nInvalid selection. \n"); break;
+     			}
+             }
+        }
+        
+        private void showTeacherUI() {
+        	
+        	if((activeUser.getFirstName()).equals("Ryan")) {
+        		while (activeUser != null) {
+         			switch (wilsonSelection()) {
+         			case 1: enrollment(); break;
+         			case 2: addAssignment(); break;
+         			case 3: deleteAssignment(); break;
+         			case 4: enterGrade(); break;
+         			case 5: resetPassword(); break;
+         			case 6: logout(); break;
+         			case 7: message(); break;
+         			default: System.out.println("\nInvalid selection. \n"); break;
+         			}
+                 }
+        	} else {
+        		while (activeUser != null) {
+         			switch (teacherSelection()) {
+         			case 1: enrollment(); break;
+         			case 2: addAssignment(); break;
+         			case 3: deleteAssignment(); break;
+         			case 4: enterGrade(); break;
+         			case 5: resetPassword(); break;
+         			case 6: logout(); break;
+         			default: System.out.println("\nInvalid selection. \n"); break;
+         			}
+                 }
+        	}
+        	
+        	
+        }
 
     /**
      * Logs in with the provided credentials.
