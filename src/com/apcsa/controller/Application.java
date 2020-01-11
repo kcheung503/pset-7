@@ -188,7 +188,6 @@ public class Application {
         	System.out.println("[4] Enter grade.");
         	System.out.println("[5] Change password.");
         	System.out.println("[6] Logout.");
-        	System.out.println("[7] Special Message.");
         	System.out.print("\n::: ");
         	int selection = in.nextInt();
     		return selection;
