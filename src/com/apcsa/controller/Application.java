@@ -999,6 +999,17 @@ public void studentEnrollment() {
         	System.out.println("");
         }
         
+        public void assignment() {
+        	System.out.println("\nChoose a course.\n");
+        	int studentId = PowerSchool.getStudentIdByUserId(activeUser);
+        	ArrayList<Integer> courseIds = PowerSchool.getCourseId(studentId);
+        	ArrayList<String> courses = PowerSchool.getCourseNumber(activeUser, courseIds);
+        	for(int i = 0; i <= courses.size()-1; i++) {
+        		System.out.println("[" + (i + 1) + "] " + courses.get(i));
+        	}
+        	
+        }
+        
     /**
      * Logs in with the provided credentials.
      *
