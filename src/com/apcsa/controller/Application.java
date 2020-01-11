@@ -1051,6 +1051,11 @@ public void studentEnrollment() {
         	}
         }
         
+        public void changePass(String username, String newPassword) {
+        	PowerSchool.updatePassword(username, newPassword);
+        	System.out.println("\nSuccessfully changed password.");
+        }
+        
     /**
      * Logs in with the provided credentials.
      *
