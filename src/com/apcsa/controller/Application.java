@@ -267,7 +267,9 @@ public class Application {
         }
         
         public void resetPassword() {
+        	
         	in.nextLine();
+        	
         	System.out.print("\nEnter current password: ");
         	String currentPassword = in.nextLine();
         	System.out.print("Enter new password: ");
@@ -277,12 +279,53 @@ public class Application {
         	
         	if(!Utils.getHash(currentPassword).equals(truePassword)) {
         		System.out.println("\nInvalid current password.\n");
+        	
         	} else {
+        		
         		changePass(activeUser.getUsername(), newPassword);
         		System.out.println("");
         	}
         }
-
+        
+        private void logout() {
+        	
+        	in.nextLine();
+        	
+        	String wantTo = "you want to logout?";
+        	System.out.print("\nAre you sure you want to logout? (y/n) ");
+        	String yesNo = in.nextLine();
+        	yesNo = yesNo.toLowerCase();
+        	int checked = checkYesNo(yesNo, wantTo);
+        	
+        	if(checked == -1) {
+    			System.out.println("");
+    			
+        	} else if (checked == 1) {
+        		
+        		activeUser = null;
+        	}
+        }
+        
+        private void factoryReset() {
+        	
+        	in.nextLine();
+        	String wantTo = "you want to reset all settings and data?";
+        	System.out.print("\nAre you sure you want to reset all settings and data? (y/n) ");
+        	String yesNo = in.nextLine();
+        	yesNo = yesNo.toLowerCase();
+        	int checked = checkYesNo(yesNo, wantTo);
+        	
+        	if(checked == -1) {
+        		
+    			System.out.println("");
+    			
+        	} else if (checked == 1) {
+        		
+        		PowerSchool.initialize(true);
+    			System.out.println("\nSuccessfully reset database.\n");
+        	}
+        }
+        
     /**
      * Logs in with the provided credentials.
      *
