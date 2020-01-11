@@ -181,6 +181,48 @@ public class Application {
         	return selection;
             
         }
+        
+        public int administratorSelection() {
+        	
+        	System.out.println("[1] View faculty.");
+        	System.out.println("[2] View faculty by department.");
+        	System.out.println("[3] View student enrollment.");
+        	System.out.println("[4] View student enrollment by grade.");
+        	System.out.println("[5] View student enrollment by course.");
+        	System.out.println("[6] Change password.");
+        	System.out.println("[7] Logout.");
+        	System.out.print("\n::: ");
+        	
+        	int selection = in.nextInt();
+    		return selection;
+        }
+        
+        public int teacherSelection() {
+        	
+        	System.out.println("[1] View enrollment by course.");
+        	System.out.println("[2] Add assignment.");
+        	System.out.println("[3] Delete assignment.");
+        	System.out.println("[4] Enter grade.");
+        	System.out.println("[5] Change password.");
+        	System.out.println("[6] Logout.");
+        	System.out.print("\n::: ");
+        	
+        	int selection = in.nextInt();
+    		return selection;
+        }
+        
+        public int studentSelection() {
+        	
+        	System.out.println("[1] View course grades.");
+        	System.out.println("[2] View assignment grades by course.");
+        	System.out.println("[3] Change password.");
+        	System.out.println("[4] Logout.");
+        	System.out.print("\n::: ");
+        	
+        	int selection = in.nextInt();
+    		return selection;
+        }
+        
 
     /**
      * Logs in with the provided credentials.
