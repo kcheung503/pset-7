@@ -124,14 +124,13 @@ public class Application {
         		
         		while (activeUser != null) {
         			
-         			switch (wilsonSelection()) {
+         			switch (extraSelection()) {
          			case 1: enrollment(); break;
          			case 2: addAssignment(); break;
          			case 3: deleteAssignment(); break;
          			case 4: enterGrade(); break;
          			case 5: resetPassword(); break;
          			case 6: logout(); break;
-         			case 7: message(); break;
          			default: System.out.println("\nInvalid selection. \n"); break;
          			}
                  }
@@ -180,6 +179,19 @@ public class Application {
         	int selection = in.nextInt();
         	return selection;
             
+        }
+        
+        public int extraSelection() {
+        	System.out.println("[1] View enrollment by course.");
+        	System.out.println("[2] Add assignment.");
+        	System.out.println("[3] Delete assignment.");
+        	System.out.println("[4] Enter grade.");
+        	System.out.println("[5] Change password.");
+        	System.out.println("[6] Logout.");
+        	System.out.println("[7] Special Message.");
+        	System.out.print("\n::: ");
+        	int selection = in.nextInt();
+    		return selection;
         }
         
         public int administratorSelection() {
