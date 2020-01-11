@@ -295,6 +295,7 @@ public class Application {
         	System.out.print("\nAre you sure you want to logout? (y/n) ");
         	String yesNo = in.nextLine();
         	yesNo = yesNo.toLowerCase();
+        	
         	int checked = checkYesNo(yesNo, wantTo);
         	
         	if(checked == -1) {
@@ -315,7 +316,7 @@ public class Application {
         	yesNo = yesNo.toLowerCase();
         	int checked = checkYesNo(yesNo, wantTo);
         	
-        	if(checked == -1) {
+        	if (checked == -1) {
         		
     			System.out.println("");
     			
@@ -325,6 +326,73 @@ public class Application {
     			System.out.println("\nSuccessfully reset database.\n");
         	}
         }
+        
+        public void faculty() {
+        	
+        	ArrayList<String> teachers = PowerSchool.getTeachers();
+        	String departmentId = null;
+        	ArrayList<String> departmentIds = new ArrayList<String>();
+        	
+        	for (int i = 0; i < teachers.size(); i = i + 2) {
+        		departmentId = PowerSchool.getDepartmentId(teachers.get(i));
+        		departmentIds.add(departmentId);
+        	}
+        	
+        	ArrayList<String> departmentTitles = new ArrayList<String>();
+        	for (int i = 0; i < departmentIds.size(); i++) {
+        		departmentTitles.add ( PowerSchool.getDepartmentTitle(departmentIds.get(i)));
+        	}
+        	
+        	System.out.println("");
+        	
+        	for (int i = 0, x = 0; i < teachers.size(); i = i + 2) {;
+        		System.out.println((x+1) + ". " + teachers.get(i+1) + ", " + teachers.get(i) + " / " + departmentTitles.get(x));
+        		x += 1;
+        	}
+        	
+        	System.out.println("");
+        }
+        
+        public void facultyByDepartment() {
+        	
+        	System.out.println("\nChoose a department.\n");
+        	ArrayList<String> departmentTitles = PowerSchool.getAllDepartmentTitles();
+        	
+        	for(int i = 0; i<departmentTitles.size(); i++) {
+        		System.out.println("[" + (i+1) + "] " + departmentTitles.get(i) + ".");
+        	}
+        	
+        	System.out.print("\n::: ");
+        	int department = in.nextInt();
+        	
+        	if (department < 1 || department > departmentTitles.size()) {
+        		
+        		while(department < 1 || department > departmentTitles.size()) {
+        			
+        			System.out.println("\nInvalid selection.");
+        			System.out.println("\nChoose a department.\n");
+        	    	departmentTitles = PowerSchool.getAllDepartmentTitles();
+        	    	
+        	    	for (int i = 0; i<departmentTitles.size(); i++) {
+        	    		System.out.println("[" + (i+1) + "] " + departmentTitles.get(i) + ".");
+        	    		
+        	    	}
+        	    	
+        	    	System.out.print("\n::: ");
+        	    	department = in.nextInt();
+        		}
+        	}
+        	
+        	ArrayList<String> teachers = PowerSchool.getTeachersWithDepartmentId(department);
+        	System.out.println("");
+        	
+        	for (int i = 0, x = 0; i < teachers.size(); i = i + 2) {
+        		System.out.println((x+1) + ". " + teachers.get(i+1) + ", " + teachers.get(i) + " / " + departmentTitles.get(department-1) + "\n");
+        		x += 1;
+        	}	
+        }
+        
+        
         
     /**
      * Logs in with the provided credentials.
