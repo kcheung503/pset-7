@@ -1020,7 +1020,16 @@ public void studentEnrollment() {
         	    	courseSelection = in.nextInt();
         		}
         	}
-        	
+        	int courseId = courseIds.get(courseSelection-1);
+        	printMarkingPeriods();
+        	int markingPeriod = in.nextInt();
+        	if(markingPeriod < 1 || markingPeriod > 6) {
+        		while(markingPeriod < 1 || markingPeriod > 6) {
+        			System.out.println("\nInvalid selection.");
+        			printMarkingPeriods();
+        	    	markingPeriod = in.nextInt();
+        		}
+        	}
         }
         
     /**
