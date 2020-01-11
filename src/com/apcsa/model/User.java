@@ -43,6 +43,14 @@ public class User {
         this.password = password;
         this.lastLogin = lastLogin;
     }
+    
+    public User(User user) {
+        this.userId = user.getUserId();
+        this.accountType = user.getAccountType().toLowerCase();
+        this.username = user.getUsername();
+        this.password = user.getPassword();
+        this.lastLogin = user.getLastLogin();
+    }
 
 	/**
      * @return userId
